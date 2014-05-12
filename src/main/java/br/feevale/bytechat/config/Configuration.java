@@ -1,6 +1,6 @@
 package br.feevale.bytechat.config;
 
-public class ChatConfiguration {
+public class Configuration {
 
 	private int port;
 

@@ -3,7 +3,7 @@ package br.feevale.bytechat.listener.impl;
 import java.io.IOException;
 
 import br.feevale.bytechat.listener.SessionListener;
-import br.feevale.bytechat.server.ChatContext;
+import br.feevale.bytechat.server.impl.ChatContext;
 import br.feevale.bytechat.util.Session;
 
 public class MessageDistributorListener implements SessionListener {
@@ -18,7 +18,7 @@ public class MessageDistributorListener implements SessionListener {
 		for (Session session : context.getSessions()) {
 			if (sourceSession != session) {
 				try {
-					session.getSocket().getOutputStream().write(String.format("%s\n", message).getBytes());
+					session.getConnection().getWriter().write(String.format("%s\n", message));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

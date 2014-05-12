@@ -1,4 +1,4 @@
-package br.feevale.bytechat.server;
+package br.feevale.bytechat.server.impl;
 
 import java.net.ServerSocket;
 import java.util.ArrayList;
@@ -45,6 +45,10 @@ public class ChatContext {
 		return serverListeners.add(listener);
 	}
 	
+	public boolean removeServerListener(ServerListener serverListener) {
+		return serverListeners.remove(serverListener);
+	}
+	
 	public List<ServerListener> getServerListeners() {
 		return serverListeners;
 	}
@@ -58,5 +62,4 @@ public class ChatContext {
 			}
 		});
 	}
-	
 }
