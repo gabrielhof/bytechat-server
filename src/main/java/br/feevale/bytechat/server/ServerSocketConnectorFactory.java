@@ -1,9 +1,7 @@
-package br.feevale.bytechat.server.impl;
+package br.feevale.bytechat.server;
 
 import br.feevale.bytechat.config.Configuration;
-import br.feevale.bytechat.exception.ServerException;
-import br.feevale.bytechat.server.ServerConnector;
-import br.feevale.bytechat.server.ServerConnectorFactory;
+import br.feevale.bytechat.server.exception.ServerException;
 
 public class ServerSocketConnectorFactory implements ServerConnectorFactory {
 

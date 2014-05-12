@@ -1,4 +1,4 @@
-package br.feevale.bytechat.server.impl;
+package br.feevale.bytechat.server;
 
 import java.net.ServerSocket;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import br.feevale.bytechat.listener.ServerListener;
+import br.feevale.bytechat.server.listener.ServerListener;
 import br.feevale.bytechat.util.Session;
 
 public class ChatContext {

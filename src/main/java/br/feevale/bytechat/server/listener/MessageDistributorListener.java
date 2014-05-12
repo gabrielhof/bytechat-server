@@ -1,9 +1,8 @@
-package br.feevale.bytechat.listener.impl;
+package br.feevale.bytechat.server.listener;
 
 import java.io.IOException;
 
-import br.feevale.bytechat.listener.SessionListener;
-import br.feevale.bytechat.server.impl.ChatContext;
+import br.feevale.bytechat.server.ChatContext;
 import br.feevale.bytechat.util.Session;
 
 public class MessageDistributorListener implements SessionListener {

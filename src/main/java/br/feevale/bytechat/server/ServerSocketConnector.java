@@ -1,14 +1,12 @@
-package br.feevale.bytechat.server.impl;
+package br.feevale.bytechat.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 import br.feevale.bytechat.config.Configuration;
-import br.feevale.bytechat.exception.ConnectorAlreadyInitializedException;
-import br.feevale.bytechat.exception.ServerException;
-import br.feevale.bytechat.server.Connection;
-import br.feevale.bytechat.server.ServerConnector;
+import br.feevale.bytechat.server.exception.ConnectorAlreadyInitializedException;
+import br.feevale.bytechat.server.exception.ServerException;
 
 public class ServerSocketConnector implements ServerConnector {
 

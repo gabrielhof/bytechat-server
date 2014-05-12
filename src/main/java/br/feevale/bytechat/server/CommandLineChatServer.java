@@ -1,4 +1,4 @@
-package br.feevale.bytechat.server.impl;
+package br.feevale.bytechat.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -8,13 +8,10 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.feevale.bytechat.config.Configuration;
-import br.feevale.bytechat.exception.ServerAlreadyStartedException;
-import br.feevale.bytechat.exception.ServerException;
-import br.feevale.bytechat.listener.ServerListener;
-import br.feevale.bytechat.server.ChatServer;
-import br.feevale.bytechat.server.ServerConnector;
-import br.feevale.bytechat.server.ServerConnectorFactory;
 import br.feevale.bytechat.server.bind.ConnectionBinder;
+import br.feevale.bytechat.server.exception.ServerAlreadyStartedException;
+import br.feevale.bytechat.server.exception.ServerException;
+import br.feevale.bytechat.server.listener.ServerListener;
 import br.feevale.bytechat.util.Session;
 
 public class CommandLineChatServer implements ChatServer {

@@ -1,4 +1,4 @@
-package br.feevale.bytechat.server.impl;
+package br.feevale.bytechat.server;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -7,8 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
-import br.feevale.bytechat.exception.ServerException;
-import br.feevale.bytechat.server.Connection;
+import br.feevale.bytechat.server.exception.ServerException;
 
 public class SocketConnection implements Connection {
 

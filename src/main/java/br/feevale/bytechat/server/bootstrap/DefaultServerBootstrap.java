@@ -1,8 +1,8 @@
 package br.feevale.bytechat.server.bootstrap;
 
 import br.feevale.bytechat.config.Configuration;
-import br.feevale.bytechat.exception.ServerException;
-import br.feevale.bytechat.server.impl.CommandLineChatServer;
+import br.feevale.bytechat.server.CommandLineChatServer;
+import br.feevale.bytechat.server.exception.ServerException;
 
 public class DefaultServerBootstrap {
 
