@@ -4,7 +4,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import br.feevale.bytechat.server.ChatServer;
-import br.feevale.bytechat.server.Connection;
+import br.feevale.bytechat.server.connector.Connection;
+import br.feevale.bytechat.server.listener.SessionNotifierListener;
 import br.feevale.bytechat.util.Session;
 import br.feevale.bytechat.util.User;
 
@@ -56,7 +57,7 @@ public class ConnectionBinder {
 				user.setName(connection.getReader().readLine());
 				
 				Session session = new Session(user, connection);
-//				TODO session.addListener(new MessageDistributorListener(context));
+				session.addListener(new SessionNotifierListener(server));
 				session.start();
 				
 				server.addSession(session);

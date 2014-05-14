@@ -1,7 +1,5 @@
 package br.feevale.bytechat.server;
 
-import java.io.IOException;
-import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,9 +7,12 @@ import javax.inject.Inject;
 
 import br.feevale.bytechat.config.Configuration;
 import br.feevale.bytechat.server.bind.ConnectionBinder;
+import br.feevale.bytechat.server.connector.ServerConnector;
 import br.feevale.bytechat.server.exception.ServerAlreadyStartedException;
 import br.feevale.bytechat.server.exception.ServerException;
+import br.feevale.bytechat.server.factory.ServerConnectorFactory;
 import br.feevale.bytechat.server.listener.ServerListener;
+import br.feevale.bytechat.server.listener.SessionNotifierServerListener;
 import br.feevale.bytechat.util.Session;
 
 public class CommandLineChatServer implements ChatServer {
@@ -20,7 +21,6 @@ public class CommandLineChatServer implements ChatServer {
 	private ServerConnectorFactory connectorFactory; 
 	
 	private Configuration configuration;
-	private ChatContext context;
 	
 	private ServerConnector connector;
 	private List<Session> sessions = new ArrayList<Session>();
@@ -28,6 +28,8 @@ public class CommandLineChatServer implements ChatServer {
 	private List<ServerListener> serverListeners = new ArrayList<ServerListener>();
 	
 	private ConnectionBinder connectionBinder;
+	
+	public CommandLineChatServer() {}
 	
 	public CommandLineChatServer(Configuration configuration) {
 		this.configuration = configuration;
@@ -38,31 +40,22 @@ public class CommandLineChatServer implements ChatServer {
 			throw new ServerAlreadyStartedException(String.format("O servidor ja foi iniciado na porta %d", configuration.getPort()));
 		}
 		
-		try {
-			connector = connectorFactory.create(configuration);
+		connector = connectorFactory.create(configuration);
+		addServerListener(new SessionNotifierServerListener(this));
 			
-			context = new ChatContext(new ServerSocket(configuration.getPort()));
-			context.addServerListener(new DefaultSessionListener());
-			
-			connectionBinder = new ConnectionBinder(this);
-			connectionBinder.start();
-		} catch (IOException e) {
-			throw new ServerException(e);
-		}
+		connectionBinder = new ConnectionBinder(this);
+		connectionBinder.start();
 	}
 
 	public void stop() throws ServerException {
-		if (context != null) {
-			try {
-				context.getServerSocket().close();
-			} catch (IOException e) {
-				throw new ServerException(e);
-			}
+		if (connector != null) {
+			connector.close();
+			connector = null;
 		}
 	}
 
 	public boolean isRunning() {
-		return context != null;
+		return connector != null;
 	}
 	
 	public void setConfiguration(Configuration configuration) throws ServerException {
@@ -89,7 +82,7 @@ public class CommandLineChatServer implements ChatServer {
 	}
 
 	public boolean removeSession(Session session) throws ServerException {
-		boolean result = context.removeSession(session);
+		boolean result = sessions.remove(session);
 		//TODO fireSessionEnded
 		
 		return result;
@@ -105,22 +98,6 @@ public class CommandLineChatServer implements ChatServer {
 	
 	public List<ServerListener> getServerListeners() {
 		return serverListeners;
-	}
-	
-	class DefaultSessionListener implements ServerListener {
-
-		public void newSession(Session newSession) {
-			for (Session session : context.getSessions()) {
-				if (session != newSession) {
-					try {
-						session.getConnection().getWriter().write(String.format("%s acabou de entrar.", newSession.getUser().getName()));
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-		
 	}
 	
 }

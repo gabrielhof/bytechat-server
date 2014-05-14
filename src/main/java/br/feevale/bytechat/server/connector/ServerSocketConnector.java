@@ -1,10 +1,12 @@
-package br.feevale.bytechat.server;
+package br.feevale.bytechat.server.connector;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 import br.feevale.bytechat.config.Configuration;
+import br.feevale.bytechat.server.connector.Connection;
+import br.feevale.bytechat.server.connector.ServerConnector;
 import br.feevale.bytechat.server.exception.ConnectorAlreadyInitializedException;
 import br.feevale.bytechat.server.exception.ServerException;
 
@@ -12,6 +14,7 @@ public class ServerSocketConnector implements ServerConnector {
 
 	private ServerSocket serverSocket;
 	
+	@Override
 	public void init(Configuration configuration) throws ServerException {
 		try {
 			if (serverSocket != null && !serverSocket.isClosed()) {
@@ -24,6 +27,7 @@ public class ServerSocketConnector implements ServerConnector {
 		}
 	}
 
+	@Override
 	public Connection accept() throws ServerException {
 		try {
 			Socket socket = serverSocket.accept();
@@ -33,7 +37,8 @@ public class ServerSocketConnector implements ServerConnector {
 		}
 	}
 	
-	public void destroy() throws ServerException {
+	@Override
+	public void close() throws ServerException {
 		try {
 			serverSocket.close();
 			serverSocket = null;
@@ -42,6 +47,7 @@ public class ServerSocketConnector implements ServerConnector {
 		}
 	}
 	
+	@Override
 	public boolean isClosed() {
 		return serverSocket == null || serverSocket.isClosed();
 	}
