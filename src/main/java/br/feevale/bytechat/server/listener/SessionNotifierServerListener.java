@@ -2,8 +2,8 @@ package br.feevale.bytechat.server.listener;
 
 import java.io.IOException;
 
+import br.feevale.bytechat.exception.ServerException;
 import br.feevale.bytechat.server.ChatServer;
-import br.feevale.bytechat.server.exception.ServerException;
 import br.feevale.bytechat.util.Session;
 
 public class SessionNotifierServerListener implements ServerListener {

@@ -6,16 +6,16 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.feevale.bytechat.config.Configuration;
+import br.feevale.bytechat.exception.ServerAlreadyStartedException;
+import br.feevale.bytechat.exception.ServerException;
 import br.feevale.bytechat.server.bind.ConnectionBinder;
 import br.feevale.bytechat.server.connector.ServerConnector;
-import br.feevale.bytechat.server.exception.ServerAlreadyStartedException;
-import br.feevale.bytechat.server.exception.ServerException;
 import br.feevale.bytechat.server.factory.ServerConnectorFactory;
 import br.feevale.bytechat.server.listener.ServerListener;
 import br.feevale.bytechat.server.listener.SessionNotifierServerListener;
 import br.feevale.bytechat.util.Session;
 
-public class CommandLineChatServer implements ChatServer {
+public class SimpleChatServer implements ChatServer {
 
 	@Inject
 	private ServerConnectorFactory connectorFactory; 
@@ -29,9 +29,9 @@ public class CommandLineChatServer implements ChatServer {
 	
 	private ConnectionBinder connectionBinder;
 	
-	public CommandLineChatServer() {}
+	public SimpleChatServer() {}
 	
-	public CommandLineChatServer(Configuration configuration) {
+	public SimpleChatServer(Configuration configuration) {
 		this.configuration = configuration;
 	}
 

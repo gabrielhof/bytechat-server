@@ -1,9 +1,9 @@
 package br.feevale.bytechat.server.listener;
 
-import java.io.IOException;
-
+import br.feevale.bytechat.exception.PacketException;
+import br.feevale.bytechat.packet.Packet;
+import br.feevale.bytechat.packet.impl.Message;
 import br.feevale.bytechat.server.ChatServer;
-import br.feevale.bytechat.server.exception.ServerException;
 import br.feevale.bytechat.util.Session;
 
 public class SessionNotifierListener implements SessionListener {
@@ -15,17 +15,21 @@ public class SessionNotifierListener implements SessionListener {
 	}
 	
 	@Override
-	public void messageReceived(Session source, String message) throws ServerException {
-		for (Session session : server.getSessions()) {
-			if (!source.equals(session)) {
-				try {
-					session.getConnection().getWriter().write(String.format("%s\n", message));
-					session.getConnection().getWriter().flush();
-				} catch (IOException e) {
-					throw new ServerException(e);
+	public void packetReceived(Session source, Packet packet) {
+		if (packet instanceof Message) {
+			Message message = (Message) packet;
+			
+			for (Session session : server.getSessions()) {
+				if (!source.equals(session)) {
+					try {
+						session.send(message);
+					} catch (PacketException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		}
 	}
-
+	
 }
