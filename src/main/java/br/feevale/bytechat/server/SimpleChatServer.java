@@ -2,6 +2,8 @@ package br.feevale.bytechat.server;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
@@ -28,6 +30,7 @@ public class SimpleChatServer implements ChatServer {
 	private List<ServerListener> serverListeners = new ArrayList<ServerListener>();
 	
 	private ConnectionBinder connectionBinder;
+	private Executor eventDispatcher = Executors.newSingleThreadExecutor();
 	
 	public SimpleChatServer() {}
 	
@@ -76,14 +79,14 @@ public class SimpleChatServer implements ChatServer {
 
 	public boolean addSession(Session session) throws ServerException {
 		boolean result = sessions.add(session);
-		//TODO fireNewSession
+		fireNewSession(session);
 		
 		return result;
 	}
 
 	public boolean removeSession(Session session) throws ServerException {
 		boolean result = sessions.remove(session);
-		//TODO fireSessionEnded
+		fireSessionEnded(session);
 		
 		return result;
 	}
@@ -98,6 +101,63 @@ public class SimpleChatServer implements ChatServer {
 	
 	public List<ServerListener> getServerListeners() {
 		return serverListeners;
+	}
+	
+	protected void fireNewSession(Session session) {
+		eventDispatcher.execute(new NewSessionDispatcher(session));
+	}
+	
+	protected void fireSessionEnded(Session session) {
+		eventDispatcher.execute(new EndSessionDispatcher(session));
+	}
+	
+	abstract class SessionDispatcher implements Runnable {
+		
+		private Session session;
+		
+		public SessionDispatcher(Session session) {
+			this.session = session;
+		}
+		
+		@Override
+		public void run() {
+			for (ServerListener listener : serverListeners) {
+				try {
+					fireEvent(listener, session);
+				} catch (ServerException e) {
+					//TODO
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		protected abstract void fireEvent(ServerListener listener, Session session) throws ServerException;
+		
+	}
+	
+	class NewSessionDispatcher extends SessionDispatcher {
+		
+		public NewSessionDispatcher(Session session) {
+			super(session);
+		}
+
+		@Override
+		protected void fireEvent(ServerListener listener, Session session) throws ServerException {
+			listener.newSession(session);
+		}
+
+	}
+	
+	class EndSessionDispatcher extends SessionDispatcher {
+		
+		public EndSessionDispatcher(Session session) {
+			super(session);
+		}
+
+		@Override
+		protected void fireEvent(ServerListener listener, Session session) throws ServerException {
+			listener.endedSession(session);
+		}
 	}
 	
 }

@@ -7,6 +7,8 @@ import java.net.Socket;
 import br.feevale.bytechat.config.Configuration;
 import br.feevale.bytechat.exception.ConnectorAlreadyInitializedException;
 import br.feevale.bytechat.exception.ServerException;
+import br.feevale.bytechat.protocol.Connection;
+import br.feevale.bytechat.protocol.SocketConnection;
 
 public class ServerSocketConnector implements ServerConnector {
 
@@ -29,6 +31,8 @@ public class ServerSocketConnector implements ServerConnector {
 	public Connection accept() throws ServerException {
 		try {
 			Socket socket = serverSocket.accept();
+			socket.setSoTimeout(1000);
+			
 			return new SocketConnection(socket);
 		} catch (Exception e) {
 			throw new ServerException(e);

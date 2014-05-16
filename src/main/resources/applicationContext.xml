@@ -14,12 +14,7 @@
  
  	<bean id="injector" class="br.feevale.bytechat.server.inject.Injector" factory-method="getInstance"></bean>
  
- 	<bean id="packetTransformerFactory" class="br.feevale.bytechat.packet.factory.JsonPacketTransformerFactory"></bean>
 	<bean id="serverConnectorFactory" class="br.feevale.bytechat.server.factory.ServerSocketConnectorFactory"></bean>
 	
 	<bean id="simpleChatServer" class="br.feevale.bytechat.server.SimpleChatServer"></bean>
-	
-	<bean class="br.feevale.bytechat.server.connector.SocketConnection" scope="prototype">
-		<property name="transformerFactory" ref="packetTransformerFactory"></property>
-	</bean>
 </beans>

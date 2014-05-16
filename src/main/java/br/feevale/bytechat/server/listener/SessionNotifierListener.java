@@ -1,8 +1,10 @@
 package br.feevale.bytechat.server.listener;
 
 import br.feevale.bytechat.exception.PacketException;
+import br.feevale.bytechat.exception.ServerException;
+import br.feevale.bytechat.listener.SessionListener;
+import br.feevale.bytechat.packet.Message;
 import br.feevale.bytechat.packet.Packet;
-import br.feevale.bytechat.packet.impl.Message;
 import br.feevale.bytechat.server.ChatServer;
 import br.feevale.bytechat.util.Session;
 
@@ -29,6 +31,16 @@ public class SessionNotifierListener implements SessionListener {
 					}
 				}
 			}
+		}
+	}
+
+	@Override
+	public void sessionEnded(Session session) {
+		try {
+			server.removeSession(session);
+		} catch (ServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
