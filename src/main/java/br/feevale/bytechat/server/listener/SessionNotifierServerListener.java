@@ -1,6 +1,7 @@
 package br.feevale.bytechat.server.listener;
 
-import br.feevale.bytechat.builder.AckBuilder;
+import br.feevale.bytechat.builder.BindBuilder;
+import br.feevale.bytechat.builder.UnbindBuilder;
 import br.feevale.bytechat.exception.PacketException;
 import br.feevale.bytechat.exception.ServerException;
 import br.feevale.bytechat.packet.Packet;
@@ -17,12 +18,12 @@ public class SessionNotifierServerListener implements ServerListener {
 	
 	@Override
 	public void newSession(Session newSession) throws ServerException {
-		notifySessions(newSession, AckBuilder.create().user(newSession.getUser()).getAck());
+		notifySessions(newSession, BindBuilder.create().user(newSession.getUser()).getBind());
 	}
 
 	@Override
 	public void endedSession(Session endedSession) throws ServerException {
-//		notifySessions(endedSession, String.format("%s acabou de sair", endedSession.getUser().getName()));
+		notifySessions(endedSession, UnbindBuilder.create().user(endedSession.getUser()).getUnbind());
 	}
 	
 	protected void notifySessions(Session ignoredSession, Packet packet) throws ServerException {

@@ -3,7 +3,8 @@ package br.feevale.bytechat.server.bind;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import br.feevale.bytechat.packet.Ack;
+import br.feevale.bytechat.exception.PacketException;
+import br.feevale.bytechat.packet.Bind;
 import br.feevale.bytechat.protocol.Connection;
 import br.feevale.bytechat.server.ChatServer;
 import br.feevale.bytechat.server.listener.SessionNotifierListener;
@@ -53,13 +54,17 @@ public class ConnectionBinder {
 		
 		public void run() {
 			try {
-				Ack ack = (Ack) connection.receive();
+				Bind ack = (Bind) connection.receive();
 				
 				Session session = new Session(ack.getUser(), connection);
 				session.addListener(new SessionNotifierListener(server));
 				session.start();
 				
 				server.addSession(session);
+			} catch (PacketException e) {
+				if (!connection.isClosed()) {
+					e.printStackTrace();
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

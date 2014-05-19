@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import javax.inject.Inject;
-
 import br.feevale.bytechat.config.Configuration;
 import br.feevale.bytechat.exception.ServerAlreadyStartedException;
 import br.feevale.bytechat.exception.ServerException;
@@ -19,7 +17,6 @@ import br.feevale.bytechat.util.Session;
 
 public class SimpleChatServer implements ChatServer {
 
-	@Inject
 	private ServerConnectorFactory connectorFactory; 
 	
 	private Configuration configuration;
@@ -32,13 +29,20 @@ public class SimpleChatServer implements ChatServer {
 	private ConnectionBinder connectionBinder;
 	private Executor eventDispatcher = Executors.newSingleThreadExecutor();
 	
-	public SimpleChatServer() {}
+	public SimpleChatServer() {
+		this(null);
+	}
 	
 	public SimpleChatServer(Configuration configuration) {
 		this.configuration = configuration;
+		this.connectorFactory = ServerConnectorFactory.getDefault();
 	}
 
 	public void start() throws ServerException {
+		if (configuration == null) {
+			throw new NullPointerException("A configuração não pode ser nula.");
+		}
+		
 		if (this.isRunning()) {
 			throw new ServerAlreadyStartedException(String.format("O servidor ja foi iniciado na porta %d", configuration.getPort()));
 		}
