@@ -6,6 +6,7 @@ import java.util.List;
 import br.feevale.bytechat.exception.PacketException;
 import br.feevale.bytechat.exception.ServerException;
 import br.feevale.bytechat.listener.AbstractSessionListener;
+import br.feevale.bytechat.packet.File;
 import br.feevale.bytechat.packet.Message;
 import br.feevale.bytechat.packet.Unbind;
 import br.feevale.bytechat.packet.UserList;
@@ -28,7 +29,6 @@ public class SessionNotifierListener extends AbstractSessionListener {
 				try {
 					session.send(message);
 				} catch (PacketException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -50,6 +50,19 @@ public class SessionNotifierListener extends AbstractSessionListener {
 			source.send(userList);
 		} catch (PacketException e) {
 			throw new RuntimeException(e);
+		}
+	}
+	
+	@Override
+	public void fileReceived(Session source, File file) {
+		for (Session session : server.getSessions()) {
+			try {
+				if (!source.equals(session)) {
+					session.send(file);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
