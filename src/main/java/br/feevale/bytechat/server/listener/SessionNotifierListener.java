@@ -25,7 +25,7 @@ public class SessionNotifierListener extends AbstractSessionListener {
 	@Override
 	public void messageReceived(Session source, Message message) {
 		for (Session session : server.getSessions()) {
-			if (!source.equals(session)) {
+			if (!source.equals(session) && (!message.isPrivate() || message.getRecipients().contains(session.getUser()))) {
 				try {
 					session.send(message);
 				} catch (PacketException e) {
