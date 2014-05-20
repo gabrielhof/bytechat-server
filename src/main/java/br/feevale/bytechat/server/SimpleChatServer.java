@@ -55,6 +55,8 @@ public class SimpleChatServer implements ChatServer {
 			
 		connectionBinder = new ConnectionBinder(this);
 		connectionBinder.start();
+		
+		System.out.println(String.format("Servidor iniciado na porta %d", configuration.getPort()));
 	}
 
 	public void stop() throws ServerException {
