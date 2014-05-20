@@ -47,7 +47,7 @@
 						</executions>
 						
 						<configuration>
-							<mainClass>br.feevale.bytechat.server.bootstrap.DefaultServerBootstrap</mainClass>
+							<mainClass>br.feevale.bytechat.server.bootstrap.ConsoleServerBootstrap</mainClass>
 						</configuration>
 					</plugin>
 					<plugin>
@@ -55,7 +55,7 @@
 						<configuration>
 							<archive>
 								<manifest>
-									<mainClass>br.feevale.bytechat.server.bootstrap.DefaultServerBootstrap</mainClass>
+									<mainClass>br.feevale.bytechat.server.bootstrap.ConsoleServerBootstrap</mainClass>
 								</manifest>
 							</archive>
 							<descriptorRefs>

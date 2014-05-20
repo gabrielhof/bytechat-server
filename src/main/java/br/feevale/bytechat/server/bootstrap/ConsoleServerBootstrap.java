@@ -5,7 +5,7 @@ import br.feevale.bytechat.exception.ServerException;
 import br.feevale.bytechat.server.ChatServer;
 import br.feevale.bytechat.server.SimpleChatServer;
 
-public class DefaultServerBootstrap {
+public class ConsoleServerBootstrap {
 
 	public static void main(String[] args) throws ServerException {
 		Configuration config = new Configuration();
