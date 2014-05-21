@@ -66,16 +66,6 @@
 								<descriptorRef>jar-with-dependencies</descriptorRef>
 							</descriptorRefs>
 						</configuration>
-						
-						<executions>
-							<execution>
-								<id>install</id>
-								<phase>install</phase>
-								<goals>
-									<goal>assembly</goal>
-								</goals>
-							</execution>
-						</executions>
 					</plugin>
 				</plugins>
 			</build>
